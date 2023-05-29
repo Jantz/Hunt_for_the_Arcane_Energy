@@ -1,5 +1,5 @@
 # This file contains all the functions that are used to display the game's UI.
-import graphics, saving
+import graphics, saving, player
 
 class rectButton():
     def __init__(self, x, y, width, height, font, text="Button_Text", color=(55,55,55), textColor=(255,255,255)):
@@ -33,19 +33,19 @@ def blit_launch_screen(uiSurface, screenX, screenY, font128, launchScreenButtons
         uiSurface.blit(button.renderedText, (button.x - button.renderedText.get_width()/2, button.y - button.renderedText.get_height()/2))
     return uiSurface
 
-def launch_screen_button_is_clicked(button, inputs, playerObj):
+def launch_screen_button_is_clicked(button, inputs, playerObj, onLaunchScreen):
     if inputs["clicks"][0] and inputs["mousePos"][0] > button.x - button.width/2 and inputs["mousePos"][0] < button.x + button.width/2 and inputs["mousePos"][1] > button.y-button.height/2 and inputs["mousePos"][1] < button.y + button.height/2:
-        print(input)
         if button.text == "New Game":
+            playerObj = player.Player()
             saving.create_save_file(playerObj.name, playerObj)
             print("New game started.")
         if button.text == "Load Game":
-            saving.load_save_file()
+            playerObj = saving.load_save_file()
             print("Game loaded.")
         if button.text == "Quit Game":
             print("Game quit.")
-            return False
+            return False, True, playerObj
         else:
-            return True
+            return True, False, playerObj
     else:
-        return True
+        return True, onLaunchScreen, playerObj

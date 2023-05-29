@@ -1,6 +1,6 @@
 # This module is for defining the NPC class and all of its subclasses.
 
-class NPC:
+class NPC():
     def __init__(self, health, attack, speed, sprite):
         self.health = health
         self.attack = attack

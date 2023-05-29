@@ -1,5 +1,5 @@
 # Import modules
-import graphics
+import pygame as pg
 
 # Define the player class.
 class Player():
@@ -50,7 +50,23 @@ class Player():
         # Movement
         self.xDir = 0
         self.yDir = 0
-        
-
-        # Load sprites
-        self.sprites = graphics.load_sprites("assets/player/idle")
+        self.movementSpeed = 1
+    
+    def update_movement_direction(self, userInputs):
+        self.xDir = 0
+        self.yDir = 0
+        if userInputs["keys"][pg.K_w]:
+            self.yDir -= 1
+        if userInputs["keys"][pg.K_s]:
+            self.yDir += 1
+        if userInputs["keys"][pg.K_a]:
+            self.xDir -= 1
+        if userInputs["keys"][pg.K_d]:
+            self.xDir += 1
+        if self.xDir != 0 or self.yDir != 0:
+            self.isMoving = True
+        else:
+            self.isMoving = False
+        # Print movement direction
+        #print(self.xDir, self.yDir)
+        return self.xDir, self.yDir, self.isMoving, self.isRunning
