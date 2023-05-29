@@ -15,6 +15,7 @@ class Player():
         self.stamina = 100
         self.maxStamina = 100
         self.energy = 0
+        self.fistDamage = 1
 
         # Levels
         self.charLevel = 1
@@ -45,6 +46,11 @@ class Player():
         self.isAttacking = False
         self.isMoving = False
         self.isRunning = False
+
+        # Movement
+        self.xDir = 0
+        self.yDir = 0
+        
 
         # Load sprites
         self.sprites = graphics.load_sprites("assets/player/idle")
