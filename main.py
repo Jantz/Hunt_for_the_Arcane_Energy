@@ -19,6 +19,7 @@ onLaunchScreen = True
 
 # Initialize pygame and create the screen.
 screen, screenX, screenY = graphics.initalize_pygame(gameName)
+emptySurface = pg.Surface((screenX, screenY),pg.SRCALPHA)
 
 # Load fonts
 fonts = graphics.load_fonts(screenX)
@@ -45,7 +46,7 @@ while gameIsRunning:
     userInputs = input.get_input(userInputs)
 
     # Generate the empty surfaces
-    worldSurface, npcSurface, playerSurface, uiSurface = graphics.make_surfaces(screenX, screenY)
+    worldSurface, npcSurface, playerSurface, uiSurface = emptySurface, emptySurface, emptySurface, emptySurface
 
     # Check if the game is on the launch screen
     if onLaunchScreen:
