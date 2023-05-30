@@ -16,7 +16,8 @@ def load_fonts(screenX):
 # Function to Initialize pygame
 def initalize_pygame(gameName):
     pg.init()
-    screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
+    flags = pg.FULLSCREEN | pg.HWSURFACE | pg.DOUBLEBUF
+    screen = pg.display.set_mode((0, 0), flags)
     pg.display.set_caption(gameName)
     pg.mouse.set_visible(False)
     return screen, screen.get_width(), screen.get_height()
@@ -28,7 +29,6 @@ def draw_game(screen, screenX, screenY, worldSurface, npcSurface, playerSurface,
     screen.fill(black)
 
     # Draw the world
-
     screen.blit(worldSurface, (0, 0))
 
     # Draw NPCs
@@ -55,7 +55,7 @@ def make_surfaces(screenX, screenY):
 # Helper function to load sprites from a directory
 def load_sprites(directory):
     sprites = []
-    for file_name in os.listdir(directory):
+    for file_name in sorted(os.listdir(directory)):
         if file_name.endswith(".png"):
             image_path = os.path.join(directory, file_name)
             sprite = pg.image.load(image_path).convert_alpha()
@@ -67,7 +67,8 @@ def draw_rect(surface, color, x, y, width, height): # Anchor point is the center
 
 def draw_cursor(surface, mousePos):
     # Draw a circle on the cursor
-    pg.draw.circle(surface, (55,255,55), mousePos, 5)
+    pg.draw.circle(surface, black, mousePos, 5)
+    pg.draw.circle(surface, (55,255,55), mousePos, 3)
 
 # Function for calculating fps from dt and displaying it on the screen
 def display_fps(screen, font, dt):
@@ -84,13 +85,13 @@ def load_player_idle():
 # Function to blit the player to the player surface.
 def blit_player(playerSurface, screenX, screenY, playerObj, sprite):
     if playerObj.isMoving:   # Moving
-        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()/2))
+        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()))
         return playerSurface
     if playerObj.isRunning:  # Running
-        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()/2))
+        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()))
         return playerSurface
     if not playerObj.isMoving and not playerObj.isRunning:   # Idle
-        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()/2))
+        playerSurface.blit(sprite[0], (screenX/2 - sprite[0].get_width()/2, screenY/2 - sprite[0].get_height()))
         # Draw a dot on the player position
         pg.draw.circle(playerSurface, (255,0,0), (screenX/2, screenY/2), 2)
         return playerSurface
